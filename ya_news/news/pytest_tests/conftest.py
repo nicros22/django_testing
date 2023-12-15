@@ -67,7 +67,7 @@ def create_bulk_of_news():
 @pytest.fixture
 def create_bulk_of_comments(news, author):
     now = timezone.now()
-    for index in range(15):
+    for index in range(3):
         comment = Comment.objects.create(
             news=news,
             author=author,

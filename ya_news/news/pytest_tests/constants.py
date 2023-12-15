@@ -1,0 +1,7 @@
+NEWS_HOME = 'news:home'
+LOGIN_URL = 'users:login'
+LOGOUT_URL = 'users:logout'
+SIGNUP_URL = 'users:signup'
+NEWS_DETAIL = 'news:detail'
+NEWS_EDIT = 'news:edit'
+NEWS_DELETE = 'news:delete'

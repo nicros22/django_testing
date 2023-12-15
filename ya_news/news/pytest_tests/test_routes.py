@@ -3,15 +3,17 @@ from http import HTTPStatus
 import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects
+from .constants import NEWS_HOME, LOGIN_URL, LOGOUT_URL, \
+    SIGNUP_URL, NEWS_DETAIL, NEWS_EDIT, NEWS_DELETE
 
 
 @pytest.mark.parametrize(
     'page, args',
-    (('news:home', None),
-     ('users:login', None),
-     ('users:logout', None),
-     ('users:signup', None),
-     ('news:detail', pytest.lazy_fixture('pk_from_news')),),
+    ((NEWS_HOME, None),
+     (LOGIN_URL, None),
+     (LOGOUT_URL, None),
+     (SIGNUP_URL, None),
+     (NEWS_DETAIL, pytest.lazy_fixture('pk_from_news')),),
 )
 @pytest.mark.django_db
 def test_pages_availability_for_anonymous_user(client, page, args):
@@ -22,8 +24,8 @@ def test_pages_availability_for_anonymous_user(client, page, args):
 
 @pytest.mark.parametrize(
     'page, args',
-    (('news:edit', pytest.lazy_fixture('pk_from_comment')),
-     ('news:delete', pytest.lazy_fixture('pk_from_comment')),),
+    ((NEWS_EDIT, pytest.lazy_fixture('pk_from_comment')),
+     (NEWS_DELETE, pytest.lazy_fixture('pk_from_comment')),),
 )
 def test_changing_comments_availability_for_authors(author_client, page, args):
     url = reverse(page, args=args)
@@ -33,18 +35,18 @@ def test_changing_comments_availability_for_authors(author_client, page, args):
 
 @pytest.mark.parametrize(
     'page, args',
-    (('news:edit', pytest.lazy_fixture('pk_from_comment')),
-     ('news:delete', pytest.lazy_fixture('pk_from_comment')),),
+    ((NEWS_EDIT, pytest.lazy_fixture('pk_from_comment')),
+     (NEWS_DELETE, pytest.lazy_fixture('pk_from_comment')),),
 )
 def test_redirects_for_anonymous_user(client, page, args):
-    login_url = reverse('users:login')
+    login_url = reverse(LOGIN_URL)
     url = reverse(page, args=args)
     expected_url = f'{login_url}?next={url}'
     response = client.get(url)
     assertRedirects(response, expected_url)
 
 
-@pytest.mark.parametrize('page', ('news:edit', 'news:delete'))
+@pytest.mark.parametrize('page', (NEWS_EDIT, NEWS_DELETE))
 def test_pages_availability_for_not_comment_authors(
         page, pk_from_comment, admin_client
 ):
