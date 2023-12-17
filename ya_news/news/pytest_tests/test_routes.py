@@ -3,6 +3,7 @@ from http import HTTPStatus
 import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects
+
 from .constants import NEWS_HOME, LOGIN_URL, LOGOUT_URL, \
     SIGNUP_URL, NEWS_DETAIL, NEWS_EDIT, NEWS_DELETE
 

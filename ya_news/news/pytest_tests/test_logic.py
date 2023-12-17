@@ -1,6 +1,6 @@
 from http import HTTPStatus
-import pytest
 
+import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects, assertFormError
 
